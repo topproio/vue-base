@@ -1,0 +1,9 @@
+{
+  "generator-node": {
+    "promptValues": {
+      "authorName": "Tina",
+      "authorEmail": "liuyan@weilaigongzuo.com",
+      "authorUrl": ""
+    }
+  }
+}
