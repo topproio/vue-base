@@ -2,20 +2,31 @@
 const Generator = require('yeoman-generator');
 const chalk = require('chalk');
 const yosay = require('yosay');
+var path = require('path');
 var copydir = require('copy-dir');
+var mkdirp = require('mkdirp');
 
 module.exports = class extends Generator {
   prompting() {
     // Have Yeoman greet the user.
     this.log(
-      yosay(`Welcome to the first-class ${chalk.red('generator-toppro-vue-base')} generator!`)
+      yosay(
+        `Welcome to the first-class ${chalk.red('generator-toppro-vue-base')} generator!`
+      )
     );
 
     const prompts = [
       {
         type: 'input',
         name: 'projectName',
-        message: 'Please input project name (vue-base):'
+        message: 'Please input project name (vue-base):',
+        default: 'vue-base'
+      },
+      {
+        type: 'list',
+        name: 'uiLibrary',
+        message: 'Please choose UI library:',
+        choices: ['elementUI', 'VUX', 'vuetify', 'vue-material']
       }
     ];
 
@@ -25,24 +36,59 @@ module.exports = class extends Generator {
     });
   }
 
-  writing() {
+  defaults() {
+    // 检查当前目录是否和用户定义的projectName一致
+    if (path.basename(this.destinationPath()) !== this.props.projectName) {
+      this.log(
+        'Your generator must be inside a folder named ' +
+          this.props.projectName +
+          '\n' +
+          "I'll automatically create this folder."
+      );
+      // 创建文新件夹
+      mkdirp(this.props.projectName);
+      this.destinationRoot(this.destinationPath(this.props.projectName));
+    }
+  }
 
-    copydir.sync(this.templatePath(), this.destinationPath(), function(stat, filepath, filename){
-      if(stat === 'file' && filename === 'package.json') {
+  writing() {
+    copydir.sync(this.templatePath(), this.destinationPath(), function(
+      stat,
+      filepath,
+      filename
+    ) {
+      if (stat === 'file' && filename === 'package.json') {
         return false;
       }
+
       return true;
-    }, );
-  
+    });
+
     var pkg = this.fs.readJSON(this.templatePath('package.json'), {});
+
+    if (this.props.uiLibrary === 'elementUI') {
+      // Package.json 添加安装包定义
+      pkg.dependencies['element-ui'] = '^2.4.11';
+      // Main.js 文件中引入安装包
+
+      let content = `
+      import ElementUI from "element-ui";
+      import "element-ui/lib/theme-chalk/index.css";
+      Vue.use(ElementUI);
+      `;
+      this.fs.append(this.destinationPath('src/main.js'), content, {
+        separator: '\n\n/* add for element UI*/'
+      });
+    } else if (this.props.uiLibrary === 'VUE') {
+      pkg.dependencies.vux = '^2.9.2';
+    }
 
     pkg.name = this.props.projectName;
 
     this.fs.writeJSON(this.destinationPath('package.json'), pkg);
-
   }
 
   install() {
-    this.installDependencies({bower: false});
+    this.installDependencies({ bower: false });
   }
 };
