@@ -27,6 +27,20 @@ module.exports = class extends Generator {
         name: 'uiLibrary',
         message: 'Please choose UI library:',
         choices: ['elementUI', 'VUX', 'vuetify', 'vue-material']
+      },
+      {
+        type: 'confirm',
+        name: 'lint',
+        message: 'Use eslint to lint your code?'
+      },
+      {
+        name: 'lintStyle',
+        type: 'list',
+        message: 'Pick an ESLint preset',
+        when(answers) {
+          return answers.lint;
+        },
+        choices: ['toppro-config-eslint']
       }
     ];
 
@@ -61,6 +75,10 @@ module.exports = class extends Generator {
         return false;
       }
 
+      if (stat === 'file' && filename === 'webpack.base.conf.js') {
+        return false;
+      }
+
       return true;
     });
 
@@ -69,6 +87,14 @@ module.exports = class extends Generator {
     if (this.props.uiLibrary === 'elementUI') {
       // Package.json 添加安装包定义
       pkg.dependencies['element-ui'] = '^2.4.11';
+
+      this.fs.copyTpl(
+        this.templatePath('build/webpack.base.conf.js'),
+        this.destinationPath('build/webpack.base.conf.js'),
+        {
+          uiLibrary: 'element-ui'
+        }
+      );
       // Main.js 文件中引入安装包
 
       let content = `
@@ -79,8 +105,26 @@ module.exports = class extends Generator {
       this.fs.append(this.destinationPath('src/main.js'), content, {
         separator: '\n\n/* add for element UI*/'
       });
-    } else if (this.props.uiLibrary === 'VUE') {
+
+      // This.fs.copyTpl(
+      //   this.templatePath('src/main.js'),
+      //   this.destinationPath('src/main.js'),
+      //   {
+      //     uiImportFile: `import ElementUI from "element-ui";
+      //                    import "element-ui/lib/theme-chalk/index.css"
+      //                   `
+      //   }
+      // );
+    } else if (this.props.uiLibrary === 'VUX') {
       pkg.dependencies.vux = '^2.9.2';
+      pkg.dependencies['vue-loader'] = '^13.3.0';
+      this.fs.copyTpl(
+        this.templatePath('build/webpack.base.conf.js'),
+        this.destinationPath('build/webpack.base.conf.js'),
+        {
+          uiLibrary: 'vux'
+        }
+      );
     }
 
     pkg.name = this.props.projectName;
@@ -88,7 +132,7 @@ module.exports = class extends Generator {
     this.fs.writeJSON(this.destinationPath('package.json'), pkg);
   }
 
-  install() {
-    this.installDependencies({ bower: false });
-  }
+  // Install() {
+  //   this.installDependencies({ bower: false });
+  // }
 };
