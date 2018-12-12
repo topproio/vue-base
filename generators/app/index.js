@@ -4,7 +4,6 @@ const chalk = require('chalk');
 const yosay = require('yosay');
 var path = require('path');
 var copydir = require('copy-dir');
-var mkdirp = require('mkdirp');
 
 module.exports = class extends Generator {
   prompting() {
@@ -60,7 +59,6 @@ module.exports = class extends Generator {
           "I'll automatically create this folder."
       );
       // 创建文新件夹
-      mkdirp(this.props.projectName);
       this.destinationRoot(this.destinationPath(this.props.projectName));
     }
   }
@@ -117,7 +115,7 @@ module.exports = class extends Generator {
       // );
     } else if (this.props.uiLibrary === 'VUX') {
       pkg.dependencies.vux = '^2.9.2';
-      pkg.dependencies['vue-loader'] = '^13.3.0';
+      pkg.dependencies['vux-loader'] = '^1.2.9';
       this.fs.copyTpl(
         this.templatePath('build/webpack.base.conf.js'),
         this.destinationPath('build/webpack.base.conf.js'),

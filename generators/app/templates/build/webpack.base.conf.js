@@ -3,16 +3,11 @@ const path = require('path')
 const utils = require('./utils')
 const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
+
 <% if(uiLibrary === 'vux'){ %>
 const vuxLoader = require('vux-loader');
 <% }else{ %>
 <% } %>
-
-
-
-
-const webpackConfig = originalConfig; // 原来的 module.exports 代码赋值给变量 webpackConfig
-
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
@@ -107,6 +102,8 @@ let originalConfig = {
     child_process: 'empty'
   }
 }
+
+const webpackConfig = originalConfig; // 原来的 module.exports 代码赋值给变量 webpackConfig
 
 <% if(uiLibrary === 'vux'){ %>
   module.exports = vuxLoader.merge(webpackConfig, {
