@@ -25,7 +25,7 @@ module.exports = class extends Generator {
         type: 'list',
         name: 'uiLibrary',
         message: 'Please choose UI library:',
-        choices: ['elementUI', 'VUX', 'vuetify', 'vue-material']
+        choices: ['elementUI', 'VUX', 'vuetify', 'iview']
       },
       {
         type: 'confirm',
@@ -64,6 +64,9 @@ module.exports = class extends Generator {
   }
 
   writing() {
+    let that = this;
+    var pkg = this.fs.readJSON(this.templatePath('package.json'), {});
+
     copydir.sync(this.templatePath(), this.destinationPath(), function(
       stat,
       filepath,
@@ -77,10 +80,21 @@ module.exports = class extends Generator {
         return false;
       }
 
+      if (!that.props.lint) {
+        if (filename === '.eslintrc.js' || filename === '.eslintignore') {
+          pkg.dependencies.eslint = '^4.15.0';
+          pkg.dependencies['eslint-config-toppro'] = '1.0.2';
+          pkg.dependencies['eslint-friendly-formatter'] = '4.0.1';
+          pkg.dependencies['eslint-plugin-html'] = '^5.0.0';
+          pkg.dependencies['eslint-loader'] = '^1.7.1';
+          pkg.dependencies['eslint-plugin-vue'] = '^4.0.0';
+
+          return false;
+        }
+      }
+
       return true;
     });
-
-    var pkg = this.fs.readJSON(this.templatePath('package.json'), {});
 
     if (this.props.uiLibrary === 'elementUI') {
       // Package.json 添加安装包定义
@@ -103,16 +117,6 @@ module.exports = class extends Generator {
       this.fs.append(this.destinationPath('src/main.js'), content, {
         separator: '\n\n/* add for element UI*/'
       });
-
-      // This.fs.copyTpl(
-      //   this.templatePath('src/main.js'),
-      //   this.destinationPath('src/main.js'),
-      //   {
-      //     uiImportFile: `import ElementUI from "element-ui";
-      //                    import "element-ui/lib/theme-chalk/index.css"
-      //                   `
-      //   }
-      // );
     } else if (this.props.uiLibrary === 'VUX') {
       pkg.dependencies.vux = '^2.9.2';
       pkg.dependencies['vux-loader'] = '^1.2.9';
