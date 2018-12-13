@@ -12,10 +12,14 @@ import "@/router-permission"; // 路由拦截
 import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
 <% } %>
+
 import "@/scss/main.scss";
 import "common/font/iconfont.css";
+
+<% if(axios){ %>
 import http from "@/common/ajax";
 window.httpReq = http;
+<% } %>
 
 <% if(uiLibrary === 'elementUI'){ %>
 Vue.use(ElementUI);

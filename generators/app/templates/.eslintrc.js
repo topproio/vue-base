@@ -7,6 +7,7 @@ module.exports = {
     ],
     rules: {
         'indent': [2, 2],
+        "linebreak-style": [2, "windows"]
     },
     plugins: [
         'html',

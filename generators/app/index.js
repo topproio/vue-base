@@ -30,6 +30,11 @@ module.exports = class extends Generator {
       },
       {
         type: 'confirm',
+        name: 'axios',
+        message: 'Use axios for http server?'
+      },
+      {
+        type: 'confirm',
         name: 'lint',
         message: 'Use eslint to lint your code?'
       },
@@ -41,6 +46,11 @@ module.exports = class extends Generator {
           return answers.lint;
         },
         choices: ['toppro-config-eslint']
+      },
+      {
+        type: 'confirm',
+        name: 'install',
+        message: 'Install node modules auto?'
       }
     ];
 
@@ -65,7 +75,7 @@ module.exports = class extends Generator {
   }
 
   writing() {
-    let that = this;
+    let changeFiles = ['package.json']; // 记录被修改的文件
     var pkg = this.fs.readJSON(this.templatePath('package.json'), {});
 
     if (this.props.uiLibrary === 'elementUI') {
@@ -74,6 +84,7 @@ module.exports = class extends Generator {
 
       // Main.js 文件中引入安装包
       util.copyTpl.apply(this, ['src/main_tpl.js', 'src/main.js', this.props]);
+      changeFiles.push('main.js');
     } else if (this.props.uiLibrary === 'vux') {
       let newPacage = {
         vux: '^2.9.2',
@@ -86,8 +97,23 @@ module.exports = class extends Generator {
         'build/webpack.base.conf.js',
         this.props
       ]);
+      changeFiles.push('webpack.base.conf.js');
     }
 
+    // 如用户选择 axios
+    if (this.props.axios) {
+      pkg.dependencies.axios = '^0.18.0';
+      util.copyTpl.apply(this, ['src/main_tpl.js', 'src/main.js', this.props]);
+      if (changeFiles.indexOf('main.js') === -1) {
+        // ChangeFiles没有保存该文件则push 保存
+        changeFiles.push('main.js');
+      }
+    } else {
+      // 如用户不选择 axios则不需要拷贝axios.js文件
+      changeFiles.push('axios.js');
+    }
+
+    // 如用户需要配置eslint
     if (this.props.lint) {
       let newPacage = {
         eslint: '^4.15.0',
@@ -98,6 +124,9 @@ module.exports = class extends Generator {
         'eslint-plugin-vue': '^4.0.0'
       };
       pkg.dependencies = Object.assign(pkg.dependencies, newPacage);
+    } else {
+      // 用户不配置eslint 就不需要拷贝下面两个文件
+      changeFiles = changeFiles.concat(['.eslintrc.js', '.eslintignore']);
     }
 
     copydir.sync(this.templatePath(), this.destinationPath(), function(
@@ -110,30 +139,10 @@ module.exports = class extends Generator {
       if (filename && path.basename(filename, extendName).endsWith('_tpl')) {
         return false;
       }
-      // Package.json 因多出需要改动，为避免冲突提示，这里不做改动，最后集中修改一次
-      if (stat === 'file' && filename === 'package.json') {
+
+      // 被改动的文件不需要重新被拷贝
+      if (changeFiles.indexOf(filename) > -1) {
         return false;
-      }
-
-      // Element UI 库前面已经修改main.js，这里不需要再次改动，避免冲突提示
-      if (that.props.uiLibrary === 'elementUI') {
-        if (filename === 'main.js') {
-          return false;
-        }
-      }
-
-      // Vux UI 库前面已经修改配置，这里不需要再次改动，避免冲突提示
-      if (that.props.uiLibrary === 'vux') {
-        if (filename === 'webpack.base.conf.js') {
-          return false;
-        }
-      }
-
-      // 用户不配置eslint 就不需要拷贝下面两个文件
-      if (!that.props.lint) {
-        if (filename === '.eslintrc.js' || filename === '.eslintignore') {
-          return false;
-        }
       }
 
       return true;
@@ -147,6 +156,8 @@ module.exports = class extends Generator {
   }
 
   // Install() {
-  //   this.installDependencies({ bower: false });
+  //   if (this.props.install) {
+  //     this.installDependencies({ bower: false });
+  //   }
   // }
 };
