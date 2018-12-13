@@ -15,9 +15,9 @@ npm link  //将拉下来得仓库代码链接到本地的全局环境，类似�
 Then generate your new project:
 
 ```bash
-手动创建项目文件夹   
+选择创建文件夹的位置 ,执行命令：
 yo toppro-vue-base
-输入项目名称，会车脚手架项目被创建，npm 会包自动安装
+输入项目名称，按提示操作，完成vue基础框架搭建工作，npm 会包自动安装
 
 ```
 
