@@ -13,6 +13,16 @@ import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
 <% } %>
 
+<% if(uiLibrary === 'vuetify'){ %>
+import Vuetify from 'vuetify'
+import 'vuetify/dist/vuetify.min.css' // Ensure you are using css-loader
+<% } %>
+
+<% if(uiLibrary === 'iview'){ %>iview
+import iView from 'iview'
+import 'iview/dist/styles/iview.css'
+<% } %>
+
 import "@/scss/main.scss";
 import "common/font/iconfont.css";
 
@@ -23,6 +33,14 @@ window.httpReq = http;
 
 <% if(uiLibrary === 'elementUI'){ %>
 Vue.use(ElementUI);
+<% } %>
+
+<% if(uiLibrary === 'vuetify'){ %>
+  Vue.use(Vuetify)
+<% } %>
+
+<% if(uiLibrary === 'vuetify'){ %>
+  Vue.use(iView)
 <% } %>
 
 Vue.config.productionTip = false;

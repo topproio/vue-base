@@ -98,6 +98,13 @@ module.exports = class extends Generator {
         this.props
       ]);
       changeFiles.push('webpack.base.conf.js');
+    } else if (this.props.uiLibrary === 'vuetify') {
+      pkg.dependencies['vue-cli-plugin-vuetify'] = '^0.4.6';
+      // Main.js 文件中引入安装包
+      util.copyTpl.apply(this, ['src/main_tpl.js', 'src/main.js', this.props]);
+      changeFiles.push('main.js');
+    } else if (this.props.uiLibrary === 'iview') {
+      pkg.dependencies.iview = '^3.1.5';
     }
 
     // 如用户选择 axios
