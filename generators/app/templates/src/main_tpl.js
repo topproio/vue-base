@@ -8,7 +8,7 @@ import "@/router-permission"; // 路由拦截
 
 // 引用UI组件
 
-<% if(uiLibrary === 'element-ui'){ %>
+<% if(uiLibrary === 'elementUI'){ %>
 import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
 <% } %>
@@ -17,7 +17,7 @@ import "common/font/iconfont.css";
 import http from "@/common/ajax";
 window.httpReq = http;
 
-<% if(uiLibrary === 'element-ui'){ %>
+<% if(uiLibrary === 'elementUI'){ %>
 Vue.use(ElementUI);
 <% } %>
 

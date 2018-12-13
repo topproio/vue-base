@@ -4,6 +4,7 @@ const chalk = require('chalk');
 const yosay = require('yosay');
 var path = require('path');
 var copydir = require('copy-dir');
+var util = require('./util');
 
 module.exports = class extends Generator {
   prompting() {
@@ -25,7 +26,7 @@ module.exports = class extends Generator {
         type: 'list',
         name: 'uiLibrary',
         message: 'Please choose UI library:',
-        choices: ['elementUI', 'VUX', 'vuetify', 'iview']
+        choices: ['elementUI', 'vux', 'vuetify', 'iview']
       },
       {
         type: 'confirm',
@@ -72,24 +73,31 @@ module.exports = class extends Generator {
       pkg.dependencies['element-ui'] = '^2.4.11';
 
       // Main.js 文件中引入安装包
-      this.fs.copyTpl(
-        this.templatePath('src/main_tpl.js'),
-        this.destinationPath('src/main.js'),
-        {
-          uiLibrary: 'element-ui'
-        }
-      );
-    } else if (this.props.uiLibrary === 'VUX') {
-      pkg.dependencies.vux = '^2.9.2';
-      pkg.dependencies['vux-loader'] = '^1.2.9';
-      // Webpack.base.conf.js中增加VUX 相关配置
-      this.fs.copyTpl(
-        this.templatePath('build/webpack.base.conf_tpl.js'),
-        this.destinationPath('build/webpack.base.conf.js'),
-        {
-          uiLibrary: 'vux'
-        }
-      );
+      util.copyTpl.apply(this, ['src/main_tpl.js', 'src/main.js', this.props]);
+    } else if (this.props.uiLibrary === 'vux') {
+      let newPacage = {
+        vux: '^2.9.2',
+        'vux-loader': '^1.2.9'
+      };
+      pkg.dependencies = Object.assign(pkg.dependencies, newPacage);
+      // Webpack.base.conf.js中增加vux 相关配置
+      util.copyTpl.apply(this, [
+        'build/webpack.base.conf_tpl.js',
+        'build/webpack.base.conf.js',
+        this.props
+      ]);
+    }
+
+    if (this.props.lint) {
+      let newPacage = {
+        eslint: '^4.15.0',
+        'eslint-config-toppro': '1.0.2',
+        'eslint-friendly-formatter': '4.0.1',
+        'eslint-plugin-html': '^5.0.0',
+        'eslint-loader': '^1.7.1',
+        'eslint-plugin-vue': '^4.0.0'
+      };
+      pkg.dependencies = Object.assign(pkg.dependencies, newPacage);
     }
 
     copydir.sync(this.templatePath(), this.destinationPath(), function(
@@ -114,22 +122,18 @@ module.exports = class extends Generator {
         }
       }
 
-      // VUX UI 库前面已经修改配置，这里不需要再次改动，避免冲突提示
-      if (that.props.uiLibrary === 'VUX') {
+      // Vux UI 库前面已经修改配置，这里不需要再次改动，避免冲突提示
+      if (that.props.uiLibrary === 'vux') {
         if (filename === 'webpack.base.conf.js') {
           return false;
         }
       }
 
-      if (that.props.lint) {
-        pkg.dependencies.eslint = '^4.15.0';
-        pkg.dependencies['eslint-config-toppro'] = '1.0.2';
-        pkg.dependencies['eslint-friendly-formatter'] = '4.0.1';
-        pkg.dependencies['eslint-plugin-html'] = '^5.0.0';
-        pkg.dependencies['eslint-loader'] = '^1.7.1';
-        pkg.dependencies['eslint-plugin-vue'] = '^4.0.0';
-      } else if (filename === '.eslintrc.js' || filename === '.eslintignore') {
-        return false;
+      // 用户不配置eslint 就不需要拷贝下面两个文件
+      if (!that.props.lint) {
+        if (filename === '.eslintrc.js' || filename === '.eslintignore') {
+          return false;
+        }
       }
 
       return true;
