@@ -9,7 +9,7 @@ import "@/router-permission"; // 路由拦截
 // 引用UI组件
 import "@/scss/main.scss";
 import "common/font/iconfont.css";
-import http from "@/common/axios";
+import http from "@/common/ajax";
 window.httpReq = http;
 
 
