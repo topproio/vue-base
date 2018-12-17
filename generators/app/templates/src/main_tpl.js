@@ -27,7 +27,7 @@ import "@/scss/main.scss";
 import "common/font/iconfont.css";
 
 <% if(axios){ %>
-import http from "@/common/ajax";
+import http from "@/common/axios";
 window.httpReq = http;
 <% } %>
 
