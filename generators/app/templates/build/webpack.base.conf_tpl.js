@@ -4,6 +4,10 @@ const utils = require('./utils')
 const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
 
+<% if(uiLibrary === 'vux'){ %>
+const vuxLoader = require('vux-loader');
+<% } %>
+
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
@@ -19,7 +23,7 @@ const createLintingRule = () => ({
   }
 })
 
-module.exports = {
+let originalConfig = {
   context: path.resolve(__dirname, '../'),
   entry: {
     app: './src/main.js'
@@ -98,4 +102,13 @@ module.exports = {
   }
 }
 
+const webpackConfig = originalConfig; // 原来的 module.exports 代码赋值给变量 webpackConfig
+
+<% if(uiLibrary === 'vux'){ %>
+  module.exports = vuxLoader.merge(webpackConfig, {
+    plugins: ['vux-ui']
+  })
+<% }else{ %>
+  module.exports = webpackConfig;
+<% } %>
 
