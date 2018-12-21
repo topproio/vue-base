@@ -7,18 +7,24 @@ First, install [Yeoman](http://yeoman.io) and generator-toppro-vue-base using [n
 
 ```bash
 npm install -g yo
-// 拉仓库代码
-// npm link
-npm install -g generator-toppro-vue-base
+拉仓库代码 git clone http://git.weilaigongzuo.com/tina/toppro-vue-base.git
+npm link  //将拉下来得仓库代码链接到本地的全局环境，类似于npm install -g **
+
 ```
 
 Then generate your new project:
 
 ```bash
-// 创建目标项目文件夹
+选择创建文件夹的位置 ,执行命令：
 yo toppro-vue-base
+输入项目名称，按提示操作，完成vue基础框架搭建工作，npm 会包自动安装
 
-// 输入项目名称，生成代码
+```
+
+```bash
+
+******  未完待续   ****
+
 ```
 
 ## Getting To Know Yeoman
