@@ -3,7 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import store from "store";
+// import store from "store";
 import "@/router-permission"; // 路由拦截
 
 // 引用UI组件
@@ -21,5 +21,5 @@ new Vue({
   router,
   components: { App },
   template: '<App/>',
-  store,
+  // store,
 })

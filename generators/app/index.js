@@ -22,31 +22,19 @@ module.exports = class extends Generator {
                 type: 'list',
                 name: 'uiLibrary',
                 message: 'Please choose UI library:',
-                choices: ['elementUI', 'vux', 'vuetify', 'iview']
+                choices: ['elementUI', 'iview']
             },
             {
-                type: 'confirm',
-                name: 'axios',
-                message: 'Use axios for http server?'
-            },
-            {
-                type: 'confirm',
-                name: 'lint',
-                message: 'Use eslint to lint your code?'
-            },
-            {
-                name: 'lintStyle',
                 type: 'list',
-                message: 'Pick an ESLint preset',
-                when(answers) {
-                    return answers.lint;
-                },
-                choices: ['toppro-config-eslint']
+                name: 'vueManage',
+                message: 'Please choose vue manage tool:',
+                choices: ['vuex', 'bus']
             },
             {
-                type: 'confirm',
-                name: 'install',
-                message: 'Install node modules auto?'
+                type: 'list',
+                name: 'jsTool',
+                message: 'Please choose js tool library:',
+                choices: ['lodash', 'underscore']
             }
         ];
 
@@ -68,69 +56,50 @@ module.exports = class extends Generator {
     }
 
     writing() {
-        let changeFiles = ['package.json']; // 记录被修改的文件
+        const changeFiles = ['package.json']; // 记录被修改的文件
         const pkg = this.fs.readJSON(this.templatePath('package.json'), {});
 
         if (this.props.uiLibrary === 'elementUI') { // Package.json 添加安装包定义
-            pkg.dependencies['element-ui'] = '^2.4.11';
-
-            // Main.js 文件中引入安装包
-            util.copyTpl.apply(this, ['src/main_tpl.js', 'src/main.js', this.props]);
-            changeFiles.push('main.js');
-        } else if (this.props.uiLibrary === 'vux') {
-            const newPacage = {
-                vux: '^2.9.2',
-                'vux-loader': '^1.2.9'
-            };
-            pkg.dependencies = Object.assign(pkg.dependencies, newPacage);
-
-            // Webpack.base.conf.js中增加vux 相关配置
-            util.copyTpl.apply(this, [
-                'build/webpack.base.conf_tpl.js',
-                'build/webpack.base.conf.js',
-                this.props
-            ]);
-            changeFiles.push('webpack.base.conf.js');
-        } else if (this.props.uiLibrary === 'vuetify') {
-            pkg.dependencies['vue-cli-plugin-vuetify'] = '^0.4.6';
+            pkg.dependencies['element-ui'] = '2.4.11';
 
             // Main.js 文件中引入安装包
             util.copyTpl.apply(this, ['src/main_tpl.js', 'src/main.js', this.props]);
             changeFiles.push('main.js');
         } else if (this.props.uiLibrary === 'iview') {
-            pkg.dependencies.iview = '^3.1.5';
+            pkg.dependencies.iview = '3.1.5';
         }
 
-        // 如用户选择 axios
-        if (this.props.axios) {
-            pkg.dependencies.axios = '^0.18.0';
+        // 户选择 vueManage
+        if (this.props.vueManage === 'vuex') {
+            pkg.dependencies.vuex = '3.0.1';
             util.copyTpl.apply(this, ['src/main_tpl.js', 'src/main.js', this.props]);
+
+            // 拷贝store 文件夹内容
+            copydir.sync(this.templatePath('src/store_tpl'), this.destinationPath('src/store'));
+
             if (changeFiles.indexOf('main.js') === -1) {
-                changeFiles.push('main.js'); // ChangeFiles没有保存该文件则push 保存
+                changeFiles.push('main.js');
             }
-        } else {
-            changeFiles.push('axios.js');  // 如用户不选择 axios则不需要拷贝axios.js文件
+        } else if (this.props.vueManage === 'bus') {
+            util.copyTpl.apply(this, ['src/main_tpl.js', 'src/main.js', this.props]);
+            util.copyTpl.apply(this, ['src/bus_tpl.js', 'src/bus.js', this.props]);
         }
 
-        // 如用户需要配置eslint
-        if (this.props.lint) {
-            const newPacage = {
-                eslint: '^4.15.0',
-                'eslint-config-toppro': '1.0.2',
-                'eslint-friendly-formatter': '4.0.1',
-                'eslint-plugin-html': '^5.0.0',
-                'eslint-loader': '^1.7.1',
-                'eslint-plugin-vue': '^4.0.0'
-            };
-            pkg.dependencies = Object.assign(pkg.dependencies, newPacage);
-        } else {
-            changeFiles = changeFiles.concat(['.eslintrc.js', '.eslintignore']);  // 用户不配置eslint 就不需要拷贝下面两个文件
+        // 户选择 js tool
+        if (this.props.jsTool === 'lodash') {
+            pkg.dependencies.lodash = '4.17.11';
+        } else if (this.props.jsTool === 'underscore') {
+            pkg.dependencies.underscore = '1.9.1';
         }
 
+
+        // 拷贝指定目录到目标位置
         copydir.sync(this.templatePath(), this.destinationPath(), function (stat,
             filepath,
-            filename) { // _tpl结尾的为自定义模板，不需要拷贝到框架中
+            filename) {
             const extendName = path.extname(filename);
+
+            // _tpl结尾的为自定义模板，不需要拷贝到框架中
             if (filename && path.basename(filename, extendName).endsWith('_tpl')) {
                 return false;
             }
@@ -149,12 +118,4 @@ module.exports = class extends Generator {
         // 修改package.json
         this.fs.writeJSON(this.destinationPath('package.json'), pkg);
     }
-
-    /*
-     * Install() {
-     *   if (this.props.install) {
-     *     this.installDependencies({ bower: false });
-     *   }
-     * }
-     */
 };
