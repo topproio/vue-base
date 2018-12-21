@@ -38,3 +38,4 @@ function VueBus(Vue) {
   }
   
   export default VueBus
+  
