@@ -38,6 +38,12 @@ module.exports = class extends Generator {
             }
         ];
 
+        // 提示用户安装commitizen
+        this.log(`User need do the following in the end: 
+        \n${chalk.yellowBright('   npm install commitizen -g')}
+        \n${chalk.yellowBright('   commitizen init cz-conventional-changelog --save-dev --save-exact')}
+        \n${chalk.yellowBright('   npm install -g @commitlint/cli @commitlint/config-conventional')}`);
+
         return this.prompt(prompts).then(props => { // To access props later use this.props.someAnswer;
             this.props = props;
         });
@@ -83,13 +89,22 @@ module.exports = class extends Generator {
         } else if (this.props.vueManage === 'bus') {
             util.copyTpl.apply(this, ['src/main_tpl.js', 'src/main.js', this.props]);
             util.copyTpl.apply(this, ['src/bus_tpl.js', 'src/bus.js', this.props]);
+            if (changeFiles.indexOf('main.js') === -1) {
+                changeFiles.push('main.js');
+            }
         }
 
-        // 户选择 js tool
-        if (this.props.jsTool === 'lodash') {
-            pkg.dependencies.lodash = '4.17.11';
-        } else if (this.props.jsTool === 'underscore') {
-            pkg.dependencies.underscore = '1.9.1';
+        // 用户选择 js tool
+        if (this.props.jsTool) {
+            util.copyTpl.apply(this, ['src/main_tpl.js', 'src/main.js', this.props]);
+            if (changeFiles.indexOf('main.js') === -1) {
+                changeFiles.push('main.js');
+            }
+            if (this.props.jsTool === 'lodash') {
+                pkg.dependencies.lodash = '4.17.11';
+            } else if (this.props.jsTool === 'underscore') {
+                pkg.dependencies.underscore = '1.9.1';
+            }
         }
 
 

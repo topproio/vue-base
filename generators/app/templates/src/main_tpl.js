@@ -9,6 +9,17 @@ import store from "store";
 <% if(vueManage === 'bus'){ %>
 import vueBus from "./bus";
 <% } %>
+
+<% if(jsTool === 'lodash'){ %>
+import lodash from 'lodash'
+Vue.prototype._ = lodash
+<% } %>
+
+<% if(jsTool === 'underscore'){ %>
+import underscore from 'underscore'
+Vue.prototype._ = underscore
+<% } %>
+
 import "@/router-permission"; // 路由拦截
 
 // 引用UI组件
