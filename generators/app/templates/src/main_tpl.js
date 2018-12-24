@@ -8,6 +8,7 @@ import store from "store";
 <% } %>
 <% if(vueManage === 'bus'){ %>
 import vueBus from "./bus";
+  Vue.use(vueBus);
 <% } %>
 
 <% if(jsTool === 'lodash'){ %>

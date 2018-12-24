@@ -36,6 +36,7 @@ Then generate your new project:
 //git commit 规范化工具，配合'husky'一起使用,'husky'前面已配置
 1. 'npm install -g @commitlint/cli @commitlint/config-conventional'
 2. 安装完毕后，每次提交代码会自动检查提交格式 exp：'git commit -m "feat: 新功能"';类型关键字和msg 之间要有空格。
+
 提交类型:
 feat: adds a new feature to your application or library
 fix: represents a bug fix for your application
