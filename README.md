@@ -7,23 +7,43 @@ First, install [Yeoman](http://yeoman.io) and generator-toppro-vue-base using [n
 
 ```bash
 npm install -g yo
-拉仓库代码 git clone http://git.weilaigongzuo.com/tina/toppro-vue-base.git
+
+git clone https://github.com/topproio/vue-base.git
+
 npm link  //将拉下来得仓库代码链接到本地的全局环境，类似于npm install -g **
+
+基础代码已包含'vue-router','axios'
 
 ```
 
 Then generate your new project:
 
 ```bash
-选择创建文件夹的位置 ,执行命令：
-yo toppro-vue-base
-输入项目名称，按提示操作，完成vue基础框架搭建工作，npm 会包自动安装
+1. 执行 'yo toppro-vue-vase'
+2. 根据提示定义工程名
+3. 选择 UI 库 'elementUI' 或 'iview'
+4. 选择vue 数据管理方式 'vuex' 或 'bus'
+5. 选择 js 管理工具 'lodash' 或 'underscore'
+
+按照提示步骤完成后，执行'git init' 然后 'npm install'
+(！！！'git init'操作一定要在'npm install'步骤之前，这个和husky 获取git 钩子有关，如果没按照这个顺序，删掉node-modules包，重新安装)
+
 
 ```
+注意事项,用户要全局安装以下命令
 
 ```bash
-
-******  未完待续   ****
+//git commit 规范化工具，配合'husky'一起使用,'husky'前面已配置
+1. 'npm install -g @commitlint/cli @commitlint/config-conventional'
+2. 安装完毕后，每次提交代码会自动检查提交格式 exp：'git commit -m "feat: 新功能"';类型关键字和msg 之间要有空格。
+提交类型:
+feat: adds a new feature to your application or library
+fix: represents a bug fix for your application
+docs: document change
+style: changes that do not affect the meaning of the code
+refactor: a code change that neither fixes a bug or adds a feature
+perf: a code change that imporves performance
+test: adding missing tests
 
 ```
 
