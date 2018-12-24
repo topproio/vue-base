@@ -3,7 +3,23 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+<% if(vueManage === 'vuex'){ %>
 import store from "store";
+<% } %>
+<% if(vueManage === 'bus'){ %>
+import vueBus from "./bus";
+<% } %>
+
+<% if(jsTool === 'lodash'){ %>
+import lodash from 'lodash'
+Vue.prototype._ = lodash
+<% } %>
+
+<% if(jsTool === 'underscore'){ %>
+import underscore from 'underscore'
+Vue.prototype._ = underscore
+<% } %>
+
 import "@/router-permission"; // 路由拦截
 
 // 引用UI组件
@@ -13,33 +29,22 @@ import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
 <% } %>
 
-<% if(uiLibrary === 'vuetify'){ %>
-import Vuetify from 'vuetify'
-import 'vuetify/dist/vuetify.min.css' // Ensure you are using css-loader
-<% } %>
-
-<% if(uiLibrary === 'iview'){ %>iview
+<% if(uiLibrary === 'iview'){ %>
 import iView from 'iview'
 import 'iview/dist/styles/iview.css'
 <% } %>
 
 import "@/scss/main.scss";
 import "common/font/iconfont.css";
-
-<% if(axios){ %>
 import http from "@/common/axios";
 window.httpReq = http;
-<% } %>
 
 <% if(uiLibrary === 'elementUI'){ %>
 Vue.use(ElementUI);
 <% } %>
 
-<% if(uiLibrary === 'vuetify'){ %>
-  Vue.use(Vuetify)
-<% } %>
 
-<% if(uiLibrary === 'vuetify'){ %>
+<% if(uiLibrary === 'iview'){ %>
   Vue.use(iView)
 <% } %>
 
@@ -51,5 +56,8 @@ new Vue({
   router,
   components: { App },
   template: '<App/>',
+  <% if(vueManage === 'vuex'){ %>
   store,
+  <% } %>
+  
 })
