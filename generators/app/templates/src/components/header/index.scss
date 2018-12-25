@@ -1,0 +1,19 @@
+.el-header{
+    height: 101px;
+    overflow: hidden;
+    padding: 0;
+    font-size: 16px;
+  }
+  #header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      border-bottom: 1px solid $border_default;
+      font-size: 16px;
+      .header__logo{
+          img{
+              max-height:80px;
+          }
+      }
+  }

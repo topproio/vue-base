@@ -1,26 +1,26 @@
 <template class="home-page">
   <div>
     <!-- header -->
-    <HeaderCom></HeaderCom>
+    <HeaderCom />
     <div class="content">
-        Welcome to Your Vue.js App
-      </div>
+      Welcome to Your Vue.js App
+    </div>
   </div>
 </template>
 
 <script>
-import HeaderCom from "components/header.vue";
+import HeaderCom from 'components/header/index.vue';
 export default {
-  name: 'home',
-  data () {
-    return {
-      
-    }
-  },
+  name: 'Home',
   components: {
-      HeaderCom
+    HeaderCom
   },
-}
+  data() {
+    return {
+
+    };
+  },
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
