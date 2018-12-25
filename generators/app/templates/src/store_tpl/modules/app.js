@@ -1,12 +1,12 @@
 const app = {
-    state: {
-        
-    },
-    mutations: {
-       
-    },
-    actions: {
+  state: {
 
-    }
-}
-export default app
+  },
+  mutations: {
+
+  },
+  actions: {
+
+  }
+};
+export default app;

@@ -1,9 +1,10 @@
-import router from 'router'
+import router from 'router';
 
 router.beforeEach((to, from, next) => {
-    next();
-})
+  next();
+});
 
 router.afterEach(() => {
-   //todo
-})
+
+  // todo
+});
