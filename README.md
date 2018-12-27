@@ -1,43 +1,44 @@
-# generator-toppro-vue-base [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
-> Generator vue-base scaffold
+# generator-toppro-vue-base
+
+[![npm](https://img.shields.io/badge/license-MIT-yellowgreen.svg)]()
+[![npm](https://img.shields.io/badge/node-%3E%3D8-blue.svg)]()
+[![npm](https://img.shields.io/badge/npm-5.6.0-orange.svg)]()
+[![npm](https://img.shields.io/badge/yeoman-2.0.5-brightgreen.svg)]()
+
+> Vue scaffolding based on Yeoman.
 
 ## Installation
 
-First, install [Yeoman](http://yeoman.io) and generator-toppro-vue-base using [npm](https://www.npmjs.com/) (we assume you have pre-installed [node.js](https://nodejs.org/)).
-
 ```bash
 npm install -g yo
-
-git clone https://github.com/topproio/vue-base.git
-
-npm link  //将拉下来得仓库代码链接到本地的全局环境，类似于npm install -g **
-
-基础代码已包含'vue-router','axios'
-
 ```
 
-Then generate your new project:
+And then:
 
 ```bash
-1. 执行 'yo toppro-vue-vase'
-2. 根据提示定义工程名
-3. 选择 UI 库 'elementUI' 或 'iview'
-4. 选择vue 数据管理方式 'vuex' 或 'bus'
-5. 选择 js 管理工具 'lodash' 或 'underscore'
+git clone git@github.com:topproio/vue-base.git
+```
 
-按照提示步骤完成后，执行'git init' 然后 'npm install'
-(！！！'git init'操作一定要在'npm install'步骤之前，这个和husky 获取git 钩子有关，如果没按照这个顺序，删掉node-modules包，重新安装)
-
+Add the template of the repo to Yeoman's list through `npm link`.
 
 ```
-注意事项,用户要全局安装以下命令
+cd vue-base
+npm link
+```
 
-```bash
-//git commit 规范化工具，配合'husky'一起使用,'husky'前面已配置
-1. 'npm install -g @commitlint/cli @commitlint/config-conventional'
-2. 安装完毕后，每次提交代码会自动检查提交格式 exp：'git commit -m "feat: 新功能"';类型关键字和msg 之间要有空格。
+Then generate your new vue project in new folder:
 
-提交类型:
+```
+yo
+```
+
+### Commitlint
+
+Please install globally:
+
+```
+// to do
+
 feat: adds a new feature to your application or library
 fix: represents a bug fix for your application
 docs: document change
@@ -45,24 +46,25 @@ style: changes that do not affect the meaning of the code
 refactor: a code change that neither fixes a bug or adds a feature
 perf: a code change that imporves performance
 test: adding missing tests
-
 ```
 
-## Getting To Know Yeoman
+### Special remind
 
- * Yeoman has a heart of gold.
- * Yeoman is a person with feelings and opinions, but is very easy to work with.
- * Yeoman can be too opinionated at times but is easily convinced not to be.
- * Feel free to [learn more about Yeoman](http://yeoman.io/).
+Please run `git init` before `npm install`. Because `Husky` later needs to get `git hooks`.
 
-## License
+## Configuration
 
- © [Tina]()
+### UI framework
 
+1. [elementUI](http://element-cn.eleme.io/#/zh-CN/component/installation)
+2. [iView](https://www.iviewui.com/docs/guide/install)
 
-[npm-image]: https://badge.fury.io/js/generator-toppro-vue-base.svg
-[npm-url]: https://npmjs.org/package/generator-toppro-vue-base
-[travis-image]: https://travis-ci.org/Tina0035/generator-toppro-vue-base.svg?branch=master
-[travis-url]: https://travis-ci.org/Tina0035/generator-toppro-vue-base
-[daviddm-image]: https://david-dm.org/Tina0035/generator-toppro-vue-base.svg?theme=shields.io
-[daviddm-url]: https://david-dm.org/Tina0035/generator-toppro-vue-base
+### Data store
+
+1. [Vuex](https://vuex.vuejs.org/zh/guide/)
+2. Vue Bus
+
+### Utils
+
+1. [Lodash](https://lodash.com/docs/4.17.10)
+2. [Underscore](https://underscorejs.org/)
