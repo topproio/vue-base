@@ -19,7 +19,7 @@ npm link  //将拉下来得仓库代码链接到本地的全局环境，类似�
 Then generate your new project:
 
 ```bash
-1. 执行 'yo toppro-vue-vase'
+1. 执行 'yo toppro-vue-base'
 2. 根据提示定义工程名
 3. 选择 UI 库 'elementUI' 或 'iview'
 4. 选择vue 数据管理方式 'vuex' 或 'bus'
