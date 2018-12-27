@@ -1,6 +1,7 @@
 'use strict';
 
 module.exports = {
+    root: true,
     extends: [
         'plugin:vue/recommended',
         'toppro',
