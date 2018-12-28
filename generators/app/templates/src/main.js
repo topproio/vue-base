@@ -11,10 +11,9 @@ import '@/router-permission'; // 路由拦截
 // 引用UI组件
 import '@/scss/main.scss';
 import 'common/font/iconfont.css';
-import http from '@/common/axios';
-window.httpReq = http;
+import axios from '@/common/axios';
 
-
+Vue.prototype.http = axios;
 Vue.config.productionTip = false;
 
 /* eslint-disable no-new */

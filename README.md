@@ -26,33 +26,34 @@ cd vue-base
 npm link
 ```
 
-Then generate your new vue project in new folder:
+Then generate your vue project in new folder:
 
 ```
 yo
+...
 ```
 
-### Commitlint
+### How to start Vue project?
 
-Please install globally:
+Goto the root directory, and run
 
 ```
-// to do
-
-feat: adds a new feature to your application or library
-fix: represents a bug fix for your application
-docs: document change
-style: changes that do not affect the meaning of the code
-refactor: a code change that neither fixes a bug or adds a feature
-perf: a code change that imporves performance
-test: adding missing tests
+npm install
 ```
 
-### Special remind
+Then run `husky:update` after `git init`
 
-Please run `git init` before `npm install`. Because `Husky` later needs to get `git hooks`.
+```
+npm run husky:update
+```
 
-## Configuration
+Developing Happy
+
+```
+npm run dev
+```
+
+## Configuration
 
 ### UI framework
 
