@@ -40,7 +40,7 @@ import 'iview/dist/styles/iview.css'
 import "@/scss/main.scss";
 import "common/font/iconfont.css";
 import axios from "@/common/axios";
-Vue.prototype.http = http;
+Vue.prototype.http = axios;
 <% if(uiLibrary === 'elementUI'){ %>
 Vue.use(ElementUI);
 <% } %>
