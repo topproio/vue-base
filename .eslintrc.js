@@ -6,8 +6,5 @@ module.exports = {
     "parserOptions": {
         "sourceType": "module"
     },
-    "rules": {
-        "linebreak-style": [2, "windows"]
-    }
 };
 
