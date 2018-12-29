@@ -53,6 +53,22 @@ Developing Happy
 npm run dev
 ```
 
+## Problems
+
+### OSX permission denied
+
+```
+Error: EACCES: permission denied, open '/Users/<user>/.config/configstore/yo.json'
+You don't have access to this file.
+...
+```
+
+Solve it:
+
+```
+sudo chmod g+rwx ~ ~/.config ~/.config/configstore
+```
+
 ## Configuration
 
 ### UI framework
