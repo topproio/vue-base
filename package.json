@@ -1,5 +1,5 @@
 {
-  "name": "generator-toppro-vue-base",
+  "name": "generator-vue-base",
   "version": "1.0.0",
   "description": "Vue scaffolding based on Yeoman.",
   "homepage": "https://github.com/topproio/vue-base",
