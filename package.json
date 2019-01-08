@@ -15,8 +15,9 @@
   "devDependencies": {
     "chalk": "^2.1.0",
     "copy-dir": "^0.4.0",
-    "eslint-config-toppro": "^1.0.3",
+    "deep-extend": "^0.6.0",
     "eslint": "^5.4.0",
+    "eslint-config-toppro": "^1.0.3",
     "path": "^0.12.7",
     "yeoman-generator": "^2.0.5",
     "yosay": "^2.0.1"
