@@ -1,41 +1,87 @@
-# generator-toppro-vue-base [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
-> Generator vue-base scaffold
+# generator-toppro-vue-base
+
+[![npm](https://img.shields.io/badge/license-MIT-yellowgreen.svg)]()
+[![npm](https://img.shields.io/badge/node-%3E%3D8-blue.svg)]()
+[![npm](https://img.shields.io/badge/npm-5.6.0-orange.svg)]()
+[![npm](https://img.shields.io/badge/yeoman-2.0.5-brightgreen.svg)]()
+
+> Vue scaffolding based on Yeoman.
 
 ## Installation
 
-First, install [Yeoman](http://yeoman.io) and generator-toppro-vue-base using [npm](https://www.npmjs.com/) (we assume you have pre-installed [node.js](https://nodejs.org/)).
-
 ```bash
 npm install -g yo
-// 拉仓库代码
-// npm link
-npm install -g generator-toppro-vue-base
 ```
 
-Then generate your new project:
+And then:
 
 ```bash
-// 创建目标项目文件夹
-yo toppro-vue-base
-
-// 输入项目名称，生成代码
+git clone git@github.com:topproio/vue-base.git
 ```
 
-## Getting To Know Yeoman
+Add the template of the repo to Yeoman's list through `npm link`.
 
- * Yeoman has a heart of gold.
- * Yeoman is a person with feelings and opinions, but is very easy to work with.
- * Yeoman can be too opinionated at times but is easily convinced not to be.
- * Feel free to [learn more about Yeoman](http://yeoman.io/).
+```
+cd vue-base
+npm link
+```
 
-## License
+Then generate your vue project in new folder:
 
- © [Tina]()
+```
+yo
+...
+```
 
+### How to start Vue project?
 
-[npm-image]: https://badge.fury.io/js/generator-toppro-vue-base.svg
-[npm-url]: https://npmjs.org/package/generator-toppro-vue-base
-[travis-image]: https://travis-ci.org/Tina0035/generator-toppro-vue-base.svg?branch=master
-[travis-url]: https://travis-ci.org/Tina0035/generator-toppro-vue-base
-[daviddm-image]: https://david-dm.org/Tina0035/generator-toppro-vue-base.svg?theme=shields.io
-[daviddm-url]: https://david-dm.org/Tina0035/generator-toppro-vue-base
+Goto the root directory, and run
+
+```
+npm install
+```
+
+Then run `husky:update` after `git init`
+
+```
+npm run husky:update
+```
+
+Developing Happy
+
+```
+npm run dev
+```
+
+## Problems
+
+### OSX permission denied
+
+```
+Error: EACCES: permission denied, open '/Users/<user>/.config/configstore/yo.json'
+You don't have access to this file.
+...
+```
+
+Solve it:
+
+```
+sudo chmod g+rwx ~ ~/.config ~/.config/configstore
+```
+
+## Configuration
+
+### UI framework
+
+1. [elementUI](http://element-cn.eleme.io/#/zh-CN/component/installation)
+2. [iView](https://www.iviewui.com/docs/guide/install)
+
+### Data store
+
+1. [Vuex](https://vuex.vuejs.org/zh/guide/)
+2. Vue Bus
+
+### Utils
+
+1. [Lodash](https://lodash.com/docs/4.17.10)
+2. [Underscore](https://underscorejs.org/)
