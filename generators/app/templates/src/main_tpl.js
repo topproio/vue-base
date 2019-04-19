@@ -39,8 +39,7 @@ import 'iview/dist/styles/iview.css'
 // 主样式文件
 import "@/scss/main.scss";
 import "common/font/iconfont.css";
-import axios from "@/common/axios";
-Vue.prototype.http = axios;
+import request from '@/utils/request';
 <% if(uiLibrary === 'elementUI'){ %>
 Vue.use(ElementUI);
 <% } %>
