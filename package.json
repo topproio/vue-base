@@ -23,5 +23,6 @@
     "yosay": "^2.0.1"
   },
   "repository": "git@github.com:topproio/vue-base.git",
-  "private": true
+  "private": true,
+  "dependencies": {}
 }
